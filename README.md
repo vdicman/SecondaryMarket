@@ -1,0 +1,2 @@
+# SecondMarket
+利用Java servlet和Jdbc等Java Web相关基本的基本工具，建立一个基于校园，面向同学的网上二手教育信息发布平台．希望可以巩固自己最近关于JavaWeb的学习．
