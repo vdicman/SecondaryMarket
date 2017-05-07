@@ -1,6 +1,8 @@
 package bean;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by wangshouli on 17-5-6.
@@ -12,6 +14,17 @@ public class Order {
     private  Date ordertime;
     private  double price;
     private  boolean state;
+    private Set<OrderItem> orderItemSet=new HashSet<OrderItem>();
+
+
+    public Set<OrderItem> getOrderItemSet() {
+        return orderItemSet;
+    }
+
+    public void setOrderItemSet(Set<OrderItem> orderItemSet) {
+        this.orderItemSet = orderItemSet;
+    }
+
 
     public boolean isState() {
         return state;

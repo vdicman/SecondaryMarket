@@ -11,16 +11,9 @@ public class OrderItem {
     private Book book;
     private int quantity;
     private double price;
-    private Set<OrderItem> orderItemSet=new HashSet<OrderItem>();
 
 
-    public Set<OrderItem> getOrderItemSet() {
-        return orderItemSet;
-    }
 
-    public void setOrderItemSet(Set<OrderItem> orderItemSet) {
-        this.orderItemSet = orderItemSet;
-    }
 
     public double getPrice() {
         return price;
