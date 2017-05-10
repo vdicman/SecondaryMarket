@@ -16,7 +16,7 @@ import java.util.List;
 public class CategoryDAO {
     public void add(Category category){
         try{
-            QueryRunner runner=new QueryRunner(JdbcUtils.getDataSource());
+            QueryRunner runner = new QueryRunner(JdbcUtils.getDataSource());
             String sql="insert into category_(id, name, description) values(null,?,?)";
             Object params[]={category.getName(),category.getDescription()};
             runner.update(sql,params);
@@ -40,7 +40,7 @@ public class CategoryDAO {
     public List<Category> findAll(){
         try{
             QueryRunner runner=new QueryRunner(JdbcUtils.getDataSource());
-            String sql="select * from category";
+            String sql="select * from category_";
             return  (List<Category>)runner.query(sql, new BeanListHandler(Category.class));
         }catch (SQLException e){
             e.printStackTrace();

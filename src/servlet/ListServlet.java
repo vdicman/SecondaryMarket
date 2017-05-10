@@ -20,7 +20,7 @@ public class ListServlet extends HttpServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Book> books=new BookDAO().list();
+        List<Book> books=new BookDAO().getAll();
         request.getSession().setAttribute("booklist",books);
         response.sendRedirect("list.jsp");
     }

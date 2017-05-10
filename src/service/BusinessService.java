@@ -19,6 +19,6 @@ public class BusinessService {
         bookDAO.add(book);
     }
     public List<Book> listBook(){
-        return bookDAO.list();
+        return bookDAO.getAll();
     }
 }

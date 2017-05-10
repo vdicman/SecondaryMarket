@@ -25,7 +25,7 @@ public class OrderDAO {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/bookstore?chacterEncoding=UTF-8",
                     "root","1235812358");
-            String sql="insert into orders_(order_time, price, state, user_id) values(?,?,?,?)";
+            String sql="insert into orders_(ordertime, price, state, user_id) values(?,?,?,?)";
             PreparedStatement preparedStatement=connection.prepareStatement(sql);
             preparedStatement.setDate(1,(Date) order.getOrdertime());
             preparedStatement.setDouble(2,order.getPrice());
@@ -73,11 +73,83 @@ public class OrderDAO {
             sql="select * from order_, user_ where order_.id=? and oder.user_id=user_.id";
             User user=(User)runner.query(sql,order.getId(),new BeanHandler(User.class));
             order.setUser_id(user.getId());
+            return order;
         }catch (SQLException e){
             e.printStackTrace();
+            throw new RuntimeException(e);
+
+        }
+
+    }
+
+    public List<Order> getAll(boolean state){
+        try{
+            QueryRunner runner=new QueryRunner(JdbcUtils.getDataSource());
+            String sql="select * from order_ where state=?";
+            List<Order> orders=(List<Order>)runner.query(sql,state,new BeanListHandler(Order.class));
+            User user=null;
+            for(Order item : orders){
+                sql="select user_.* from user_, order_ where order_.id=? and user_.id=orders_.id";
+                user=(User)runner.query(sql,item.getId(),new BeanHandler(User.class));
+                item.setUser_id(user.getId());
+            }
+            return orders;
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw  new RuntimeException(e);
         }
     }
 
+
+    public List<Order> getAll(boolean state,int user_id){
+        try {
+            QueryRunner runner= new QueryRunner(JdbcUtils.getDataSource());
+            String sql="select * from oders_ where state=? and orders_.user_id=? ";
+            Object params[]={state,user_id};
+            List<Order> orders =(List<Order>)runner.query(sql,params,new BeanListHandler(Order.class));
+            User user=null;
+            for(Order item : orders){
+                sql="select * from user_ where user_.id=?";
+                user=(User)runner.query(sql,user_id,new BeanHandler(User.class));
+                item.setUser_id(user.getId());
+            }
+            return orders;
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw  new RuntimeException(e);
+        }
+    }
+
+    public List<Order> getAll(int user_id){
+        try {
+            QueryRunner runner=new QueryRunner(JdbcUtils.getDataSource());
+            String sql="select * from order_ where user_id=?";
+            List<Order> orders=(List<Order>)runner.query(sql,user_id,new BeanListHandler(Order.class));
+            for(Order item :orders){
+                sql="select * from user_ where id=?";
+                User user=(User)runner.query(sql,user_id,new BeanHandler(User.class));
+                item.setUser_id(user.getId());
+            }
+            return  orders;
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw  new RuntimeException(e);
+        }
+    }
+
+    public  void  update(Order order){
+        try {
+            QueryRunner runner=new QueryRunner(JdbcUtils.getDataSource());
+            String sql="update orders_ set state=? where id=?";
+            Object param[]={order.isState(),order.getId()};
+            runner.update(sql,param);
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw  new  RuntimeException(e);
+        }
+    }
 
 
 }
